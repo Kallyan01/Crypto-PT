@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Integration</title>
+</head>
+<body>
+    <h2 id="data">null</h2>
+</body>
+<script>
+let fend=document.getElementById('data');
+async function getData()
+{
+    // url ="https://api.nomics.com/v1/currencies?key=5582f182403ec9104180175a515fabf3f1043b46&ids=BTC,ETH,XRP&attributes=id,name,logo_url";
+    url= "https://api.nomics.com/v1/currencies/ticker?key=5582f182403ec9104180175a515fabf3f1043b46&ids=BTC&interval=1d,30d&convert=EUR&per-page=100&page=1"
+    await fetch(url).then((response)=>{
+        return response.json();
+    }).then((data,index)=>{
+    //    console.log(data)
+       for(let i =0;i<data.length;i++)
+       {
+        //    console.log(data[i].name)
+        let inr = parseFloat((75.04*data[i].price)+623877.26).toFixed(2);
+        fend.innerHTML=`Current ${data[i].name} price  ${inr}`;
+        fend.style="transition:all 0.5s ease-in-out"
+
+       }
+    })
+    setInterval(getData,10000);
+}
+getData();
+</script>
+</html>
